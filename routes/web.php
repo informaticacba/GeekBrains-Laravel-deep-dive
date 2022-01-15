@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NewsController;
+use App\Http\Controllers\{NewsController, CategoryController};
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 
@@ -22,8 +22,6 @@ Route::get('/', function () {
 
 Route::get('/hello', fn() => "Hello, dear guest");
 
-Route::get('/hello/{name}', fn(string $name) => "Hello {$name}");
-
 Route::get('/info', fn() => "Информация о проекте.");
 
 //admin
@@ -39,3 +37,11 @@ Route::get('/news', [NewsController::class, 'index'])
 Route::get('/news/{id}', [NewsController::class, 'show'])
     ->where('id', '\d+')
     ->name('news.show');
+
+//categories
+Route::get('/categories', [CategoryController::class, 'index'])
+    ->name('categories.index');
+
+Route::get('/categories/{id}', [CategoryController::class, 'show'])
+    ->where('id', '\d+')
+    ->name('categories.show');

@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $news = $this->getNews();
+        $id_category = $request->get('category') ?? null;
+        $news = $this->getNews($id_category);
 
         return view('news.index', [
             'newsList' => $news
@@ -17,7 +18,7 @@ class NewsController extends Controller
 
     public function show(int $id)
     {
-        $news = $this->getNews($id);
+        $news = $this->getNewsOne($id);
 
         return view('news.show', [
             'news' => $news
