@@ -16,16 +16,16 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome')
+    ->name('home');
 
-Route::get('/hello', fn() => "Hello, dear guest");
-
-Route::get('/info', fn() => "Информация о проекте.");
+Route::view('/info', 'info')
+    ->name('info');
 
 //admin
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
+    Route::view('/', 'admin.index')
+        ->name('index');
     Route::resource('/categories', AdminCategoryController::class);
     Route::resource('/news', AdminNewsController::class);
 });

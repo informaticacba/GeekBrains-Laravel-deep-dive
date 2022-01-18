@@ -21,7 +21,8 @@ class Controller extends BaseController
             $data[] = [
                 'id' => $i,
                 'title' => $faker->jobTitle(),
-                'description' => $faker->text(100),
+                'shortDescription' => $faker->text(100),
+                'description' => $faker->text(1000),
                 'author' => $faker->userName(),
                 'created_at' => now('Europe/Moscow'),
                 'id_category' => $faker->numberBetween(1, 5)
@@ -38,7 +39,8 @@ class Controller extends BaseController
         return [
             'id' => $id,
             'title' => $faker->jobTitle(),
-            'description' => $faker->text(100),
+            'shortDescription' => $faker->text(100),
+            'description' => $faker->text(1000),
             'author' => $faker->userName(),
             'created_at' => now('Europe/Moscow')
         ];
