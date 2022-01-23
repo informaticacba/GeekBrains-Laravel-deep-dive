@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{NewsController, CategoryController};
+use App\Http\Controllers\{NewsController, CategoryController, FormController};
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 
@@ -45,3 +45,10 @@ Route::get('/categories', [CategoryController::class, 'index'])
 Route::get('/categories/{id}', [CategoryController::class, 'show'])
     ->where('id', '\d+')
     ->name('categories.show');
+
+//form
+Route::post('/form/feedback/add', [FormController::class, 'addFeedback'])
+    ->name('form.feedback.add');
+
+Route::post('/form/dataUpload', [FormController::class, 'dataUpload'])
+    ->name('form.dataUpload');

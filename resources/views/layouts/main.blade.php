@@ -43,6 +43,9 @@
             @yield('content')
         </section>
     </main>
+
+    <x-dataUpload></x-dataUpload>
+    <x-feedback></x-feedback>
     <x-footer></x-footer>
 
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>

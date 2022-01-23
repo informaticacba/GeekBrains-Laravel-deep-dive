@@ -44,3 +44,20 @@
 .detail-category__link {
     font-size: 20px;
 }
+
+.form {
+    max-width: 100%;
+    width: 600px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-title {
+    margin: 0;
+    padding: 40px 0;
+    text-align: center;
+}
