@@ -20,17 +20,17 @@
 
                             <div class="card-body">
                                 <p>
-                                    <a href="{{ route('news.show', ['id' => $news['id']]) }}">
-                                        <b>{{ $news['title'] }}</b>
+                                    <a href="{{ route('news.show', ['id' => $news->id]) }}">
+                                        <b>{{ $news->title }}</b>
                                     </a>
                                 </p>
-                                <p><b>Автор:</b> {{ $news['author'] }}</p>
-                                <p class="card-text">{{ $news['shortDescription'] }}</p>
+                                <p><b>Автор:</b> {{ $news->author }}</p>
+                                <p class="card-text">{{ $news->short_description }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('news.show', ['id' => $news['id']]) }}" type="button" class="btn btn-sm btn-outline-secondary">Смотреть подробнее</a>
+                                        <a href="{{ route('news.show', ['id' => $news->id]) }}" type="button" class="btn btn-sm btn-outline-secondary">Смотреть подробнее</a>
                                     </div>
-                                    <small class="text-muted">Дата добавления: <br>{{ $news['created_at'] }}</small>
+                                    <small class="text-muted">Дата добавления: <br>{{ $news->created_at }}</small>
                                 </div>
                             </div>
                         </div>

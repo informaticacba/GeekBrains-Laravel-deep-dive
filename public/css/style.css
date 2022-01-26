@@ -38,7 +38,12 @@
 .detail-news__info {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
+}
+
+.detail-news__category {
+    text-align: left;
+    margin-bottom: 20px;
 }
 
 .detail-category__link {

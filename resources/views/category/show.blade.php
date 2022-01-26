@@ -5,9 +5,9 @@
 @stop
 
 @section('header')
-    {{ $category['title'] }}
+    {{ $category->title }}
 @endsection
 
 @section('content')
-    <a href="{{ route('news.index', ['category' => $category['id']]) }}" class="detail-category__link">Новости данной категории</a>
+    <a href="{{ route('news.index', ['category' => $category->id]) }}" class="detail-category__link">Новости данной категории</a>
 @endsection

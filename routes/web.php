@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{NewsController, CategoryController, FormController};
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -52,3 +53,25 @@ Route::post('/form/feedback/add', [FormController::class, 'addFeedback'])
 
 Route::post('/form/dataUpload', [FormController::class, 'dataUpload'])
     ->name('form.dataUpload');
+
+Route::get('/sql', function () {
+    dump(
+//            DB::table('news')
+//                ->join('categories_has_news as chn', 'news.id', '=', 'chn.news_id')
+//                ->join('categories', 'chn.category_id', '=', 'categories.id')
+//                ->select('news.*', 'categories.title as categoryTitle')
+//                ->get()
+        DB::table('news')
+//            ->where([
+//                ['title', 'like', '%' . request()->get('q') . '%'],
+//                ['id', '<', 10]
+//            ])
+//            ->where('id', '>', 5)
+//            ->where('isImage', '=', false)
+//            ->orWhere('author', '=', 'Admin')
+//            ->whereNotIn('id', [1, 7, 9])
+//            ->whereBetween('id', ['3', '7'])
+            ->orderBy('id', 'desc')
+            ->get()
+    );
+});
