@@ -3,31 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 
 class CategoryController extends Controller
 {
-    private Category $categoryModel;
-
-    public function __construct()
+    public function index(): Application|Factory|View
     {
-        $this->categoryModel = new Category();
-    }
+        $categories = Category::select(Category::$availableFields)->get();
 
-    public function index()
-    {
-        $categories = $this->categoryModel->getCategories();
-
-        return view('category.index', [
+        return view('categories.index', [
             'categories' => $categories
         ]);
     }
 
-    public function show(int $id)
+    public function show(Category $category): Application|Factory|View
     {
-        $category = $this->categoryModel->getCategory($id);
-
-        return view('category.show', [
+        return view('categories.show', [
             'category' => $category
         ]);
     }

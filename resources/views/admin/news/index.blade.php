@@ -12,6 +12,40 @@
 @endsection
 @section('content')
     <div class="table-responsive">
-        Список новостей
+        @include('inc.message')
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Заголовок</th>
+                    <th>Категории</th>
+                    <th>Автор</th>
+                    <th>Статус</th>
+                    <th>Дата добавления</th>
+                    <th>Дата изменения</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($newsList as $news)
+                    <tr>
+                        <td>{{ $news->id }}</td>
+                        <td>{{ $news->title }}</td>
+                        <td>{{ $news->categories->map(fn($category) => $category->title)->join(', ') }}</td>
+                        <td>{{ $news->author }}</td>
+                        <td>{{ $news->status }}</td>
+                        <td>{{ $news->created_at }}</td>
+                        <td>{{ $news->updated_at }}</td>
+                        <td>
+                            <a href="{{ route('admin.news.edit', ['news' => $news]) }}">Редактировать</a><br>
+                            <a href="">Удалить</a>
+                        </td>
+                    </tr>
+                @empty
+                    Новостей нет
+                @endforelse
+            </tbody>
+        </table>
+        {{ $newsList->links() }}
     </div>
 @endsection

@@ -27,8 +27,9 @@ class DataSourceSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $data[] = [
                 'title' => $faker->sentence(10),
-                'link' => $faker->sentence(10),
-                'created_at' => date('Y-m-d H:m:s')
+                'link' => '#',
+                'created_at' => date('Y-m-d H:m:s'),
+                'updated_at' => date('Y-m-d H:m:s')
             ];
         }
 

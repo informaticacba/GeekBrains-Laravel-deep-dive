@@ -44,8 +44,8 @@
         </section>
     </main>
 
-    <x-dataUpload></x-dataUpload>
-    <x-feedback></x-feedback>
+    <x-formAddOrderToReceiveDataUpload></x-formAddOrderToReceiveDataUpload>
+    <x-formAddFeedback></x-formAddFeedback>
     <x-footer></x-footer>
 
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>

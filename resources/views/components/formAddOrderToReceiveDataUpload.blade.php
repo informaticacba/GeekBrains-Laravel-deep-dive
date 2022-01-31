@@ -1,5 +1,5 @@
 <h2 class="form-title">Форма заказа на получение выгрузки данных</h2>
-<form action="{{ route('form.dataUpload') }}" method="post" class="form form-data-upload">
+<form action="{{ route('form.ordersToReceiveDataUpload.add') }}" method="post" class="form form-data-upload">
     @csrf
     <div class="form-group">
         <label for="name">Имя</label>

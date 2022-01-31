@@ -3,26 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\DataSource;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class DataSourceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index(): Application|Factory|View
     {
-        $categories = Category::paginate(10);
+        $sources = DataSource::paginate(10);
 
-        return view('admin.categories.index', [
-            'categories' => $categories
+        return view('admin.dataSources.index', [
+            'sources' => $sources
         ]);
     }
 
@@ -33,52 +33,52 @@ class CategoryController extends Controller
      */
     public function create(): Application|Factory|View
     {
-        return view('admin.categories.create');
+        return view('admin.dataSources.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->only(['title', 'description', 'image']);
+        $data = $request->only(['title', 'link']);
 
-        $created = Category::create($data);
+        $created = DataSource::create($data);
 
         return
             ($created)
                 ? redirect()
-                    ->route('admin.categories.index')
-                    ->with('success', 'Категория успешно добавлена')
+                    ->route('admin.dataSources.index')
+                    ->with('success', 'Источник успешно добавлен')
                 : back()
-                    ->with('error', 'Не удалось добавить категорию')
+                    ->with('error', 'Не удалось добавить источник')
                     ->withInput();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Category $category
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        return "Отобразить категорию";
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Category $category
+     * @param DataSource $source
      * @return Application|Factory|View
      */
-    public function edit(Category $category): Application|Factory|View
+    public function edit(DataSource $dataSource): Application|Factory|View
     {
-        return view('admin.categories.edit', [
-            'category' => $category
+        return view('admin.dataSources.edit', [
+            'dataSource' => $dataSource
         ]);
     }
 
@@ -86,22 +86,22 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Category $category
+     * @param DataSource $source
      * @return RedirectResponse
      */
-    public function update(Request $request, Category $category): RedirectResponse
+    public function update(Request $request, DataSource $source): RedirectResponse
     {
-        $data = $request->only(['title', 'description', 'image']);
+        $data = $request->only(['title', 'link']);
 
-        $updated = $category->fill($data)->save();
+        $updated = $source->fill($data)->save();
 
         return
             ($updated)
                 ? redirect()
-                    ->route('admin.categories.index')
-                    ->with('success', 'Категория успешно обновлена')
+                    ->route('admin.dataSources.index')
+                    ->with('success', 'Источник успешно добавлен')
                 : back()
-                    ->with('error', 'Не удалось обновить категорию')
+                    ->with('error', 'Не удалось добавить источник')
                     ->withInput();
     }
 

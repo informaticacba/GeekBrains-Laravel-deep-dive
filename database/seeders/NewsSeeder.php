@@ -25,7 +25,7 @@ class NewsSeeder extends Seeder
         $faker = Factory::create();
 
         for ($i = 0; $i < 50; $i++) {
-            $title = $faker->sentence(10);
+            $title = $faker->sentence(5);
             $data[] = [
                 'title' => $title,
                 'slug' => Str::slug($title),
@@ -33,7 +33,8 @@ class NewsSeeder extends Seeder
                 'short_description' => $faker->text(100),
                 'description' => $faker->text(1000),
                 'source_id' => mt_rand(1, 10),
-                'created_at' => date('Y-m-d H:m:s')
+                'created_at' => date('Y-m-d H:m:s'),
+                'updated_at' => date('Y-m-d H:m:s')
             ];
         }
 

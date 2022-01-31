@@ -35,18 +35,22 @@
     margin: 0 auto;
 }
 
+.detail-news__section {
+    margin-bottom: 30px;
+}
+
 .detail-news__info {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 20px;
 }
 
 .detail-news__category {
     text-align: left;
-    margin-bottom: 20px;
 }
 
 .detail-category__link {
+    display: inline-block;
+    width: auto;
     font-size: 20px;
 }
 

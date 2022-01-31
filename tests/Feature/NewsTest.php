@@ -29,7 +29,7 @@ class NewsTest extends TestCase
 
     public function testListCategory()
     {
-        $response = $this->get(route('news.index', ['category' => mt_rand(1,5)]));
+        $response = $this->get(route('news.index', ['categories' => mt_rand(1,5)]));
 
         $response->assertStatus(200);
     }
