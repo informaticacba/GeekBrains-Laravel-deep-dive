@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderToReceiveDataUpload\CreateRequest;
+use App\Http\Requests\OrderToReceiveDataUpload\UpdateRequest;
 use App\Models\OrderToReceiveDataUpload;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrderToReceiveDataUploadController extends Controller
 {
@@ -39,12 +43,12 @@ class OrderToReceiveDataUploadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CreateRequest $request): RedirectResponse
     {
-        $data = $request->only(['name', 'phone', 'email', 'info']);
+        $data = $request->validated();
 
         $created = OrderToReceiveDataUpload::create($data);
 
@@ -85,13 +89,13 @@ class OrderToReceiveDataUploadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateRequest $request
      * @param OrderToReceiveDataUpload $order
      * @return RedirectResponse
      */
-    public function update(Request $request, OrderToReceiveDataUpload $order): RedirectResponse
+    public function update(UpdateRequest $request, OrderToReceiveDataUpload $order): RedirectResponse
     {
-        $data = $request->only(['name', 'phone', 'email', 'info']);
+        $data = $request->validated();
 
         $updated = $order->fill($data)->save();
 
@@ -108,11 +112,19 @@ class OrderToReceiveDataUploadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param OrderToReceiveDataUpload $order
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(OrderToReceiveDataUpload $order): JsonResponse
     {
-        //
+        try {
+            $order->delete();
+
+            return response()->json('ok');
+        } catch (\Exception $e) {
+            Log::error('Order error destroy', [$e]);
+
+            return response()->json('error', 400);
+        }
     }
 }

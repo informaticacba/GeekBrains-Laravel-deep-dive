@@ -12,6 +12,9 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+    .js('resources/js/admin/delete.js', 'public/js')
+    .js('resources/js/bootstrap.bundle.min.js', 'public/js')
+    .js('resources/js/dashboard.js', 'public/js')
+    .postCss('resources/css/app.css', 'public/css')
+    .postCss('resources/css/bootstrap.min.css', 'public/css')
+    .postCss('resources/css/dashboard.css', 'public/css');

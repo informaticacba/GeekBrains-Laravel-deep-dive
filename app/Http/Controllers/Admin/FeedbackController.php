@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Feedback\CreateRequest;
+use App\Http\Requests\Feedback\UpdateRequest;
 use App\Models\Feedback;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class FeedbackController extends Controller
 {
@@ -39,12 +43,12 @@ class FeedbackController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CreateRequest $request): RedirectResponse
     {
-        $data = $request->only(['name', 'comment']);
+        $data = $request->validated();
 
         $created = Feedback::create($data);
 
@@ -90,13 +94,13 @@ class FeedbackController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateRequest $request
      * @param Feedback $feedback
      * @return RedirectResponse
      */
-    public function update(Request $request, Feedback $feedback): RedirectResponse
+    public function update(UpdateRequest $request, Feedback $feedback): RedirectResponse
     {
-        $data = $request->only(['name', 'comment']);
+        $data = $request->validated();
 
         $updated = $feedback->fill($data)->save();
 
@@ -113,11 +117,19 @@ class FeedbackController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Feedback $feedback
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Feedback $feedback): JsonResponse
     {
-        //
+        try {
+            $feedback->delete();
+
+            return response()->json('ok');
+        } catch (\Exception $e) {
+            Log::error('Feedback error destroy', [$e]);
+
+            return response()->json('error', 400);
+        }
     }
 }

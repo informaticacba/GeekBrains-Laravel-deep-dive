@@ -37,7 +37,7 @@
                     <td>{{ $feedback->updated_at }}</td>
                     <td>
                         <a href="{{ route('admin.feedbacks.edit', ['feedback' => $feedback]) }}">Редактировать</a><br>
-                        <a href="">Удалить</a>
+                        <a href="javascript:" class="delete" rel="{{ $feedback->id }}">Удалить</a>
                     </td>
                 </tr>
             @empty
@@ -48,3 +48,7 @@
         {{ $feedbacks->links() }}
     </div>
 @endsection
+
+@push('js')
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endpush

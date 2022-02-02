@@ -41,7 +41,7 @@
                     <td>{{ $order->updated_at }}</td>
                     <td>
                         <a href="{{ route('admin.ordersToReceiveDataUpload.edit', ['order' => $order]) }}">Редактировать</a><br>
-                        <a href="">Удалить</a>
+                        <a href="javascript:" class="delete" rel="{{ $order->id }}">Удалить</a>
                     </td>
                 </tr>
             @empty
@@ -52,3 +52,7 @@
         {{ $orders->links() }}
     </div>
 @endsection
+
+@push('js')
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endpush

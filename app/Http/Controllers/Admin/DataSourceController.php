@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DataSource\CreateRequest;
+use App\Http\Requests\DataSource\UpdateRequest;
 use App\Models\DataSource;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DataSourceController extends Controller
 {
@@ -39,12 +43,12 @@ class DataSourceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CreateRequest $request): RedirectResponse
     {
-        $data = $request->only(['title', 'link']);
+        $data = $request->validated();
 
         $created = DataSource::create($data);
 
@@ -72,7 +76,7 @@ class DataSourceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param DataSource $source
+     * @param DataSource $dataSource
      * @return Application|Factory|View
      */
     public function edit(DataSource $dataSource): Application|Factory|View
@@ -85,13 +89,13 @@ class DataSourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateRequest $request
      * @param DataSource $source
      * @return RedirectResponse
      */
-    public function update(Request $request, DataSource $source): RedirectResponse
+    public function update(UpdateRequest $request, DataSource $source): RedirectResponse
     {
-        $data = $request->only(['title', 'link']);
+        $data = $request->validated();
 
         $updated = $source->fill($data)->save();
 
@@ -108,11 +112,19 @@ class DataSourceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param DataSource $source
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(DataSource $source): JsonResponse
     {
-        //
+        try {
+            $source->delete();
+
+            return response()->json('ok');
+        } catch (\Exception $e) {
+            Log::error('DataSource error destroy', [$e]);
+
+            return response()->json('error', 400);
+        }
     }
 }

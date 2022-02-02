@@ -38,7 +38,7 @@
                         <td>{{ $news->updated_at }}</td>
                         <td>
                             <a href="{{ route('admin.news.edit', ['news' => $news]) }}">Редактировать</a><br>
-                            <a href="">Удалить</a>
+                            <a href="javascript:" class="delete" rel="{{ $news->id }}">Удалить</a>
                         </td>
                     </tr>
                 @empty
@@ -49,3 +49,7 @@
         {{ $newsList->links() }}
     </div>
 @endsection
+
+@push('js')
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endpush

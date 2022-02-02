@@ -18,7 +18,7 @@
             Категории: {{ $categories }}
         </div>
         <div class="detail-news__section detail-news__source">
-            Источник: <a href="{{ $news->source->link }}">{{ $news->source->title }}</a>
+            Источник: <a href="{{ $news->source->link }}" target="_blank">{{ $news->source->title }}</a>
         </div>
         <p class="detail-news__description">{!! $news->description !!}</p>
     </div>

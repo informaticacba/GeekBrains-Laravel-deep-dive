@@ -43,7 +43,7 @@
                     <td>{{ $category->updated_at }}</td>
                     <td>
                         <a href="{{ route('admin.categories.edit', ['category' => $category]) }}">Редактировать</a><br>
-                        <a href="">Удалить</a>
+                        <a href="javascript:" class="delete" rel="{{ $category->id }}">Удалить</a>
                     </td>
                 </tr>
             @empty
@@ -54,3 +54,7 @@
         {{ $categories->links() }}
     </div>
 @endsection
+
+@push('js')
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endpush

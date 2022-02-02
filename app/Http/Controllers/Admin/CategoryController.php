@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\CreateRequest;
+use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -39,12 +43,12 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CreateRequest $request): RedirectResponse
     {
-        $data = $request->only(['title', 'description', 'image']);
+        $data = $request->validated();
 
         $created = Category::create($data);
 
@@ -85,13 +89,13 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateRequest $request
      * @param Category $category
      * @return RedirectResponse
      */
-    public function update(Request $request, Category $category): RedirectResponse
+    public function update(UpdateRequest $request, Category $category): RedirectResponse
     {
-        $data = $request->only(['title', 'description', 'image']);
+        $data = $request->validated();
 
         $updated = $category->fill($data)->save();
 
@@ -108,11 +112,19 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Category $category): JsonResponse
     {
-        //
+        try {
+            $category->delete();
+
+            return response()->json('ok');
+        } catch (\Exception $e) {
+            Log::error('Category error destroy', [$e]);
+
+            return response()->json('error', 400);
+        }
     }
 }

@@ -15,14 +15,22 @@ class FormTest extends TestCase
      */
     public function testAddFeedbacks()
     {
-        $response = $this->post(route('form.feedback.add'));
+        $response = $this->post(route('form.feedbacks.add'), [
+            'name' => 'Name',
+            'comment' => 'Comment'
+        ]);
 
         $response->assertRedirect();
     }
 
     public function testDataUpload()
     {
-        $response = $this->post(route('form.dataUpload'));
+        $response = $this->post(route('form.ordersToReceiveDataUpload.add'), [
+            'name' => 'Name',
+            'phone' => '1234567',
+            'email' => 'e@e',
+            'info' => 'Info'
+        ]);
 
         $response->assertRedirect();
     }

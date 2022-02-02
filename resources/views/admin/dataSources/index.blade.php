@@ -32,12 +32,14 @@
                 <tr>
                     <td>{{ $source->id }}</td>
                     <td>{{ $source->title }}</td>
-                    <td>{{ $source->link }}</td>
+                    <td>
+                        <a href="{{ $source->link }}" target="_blank">{{ $source->link }}</a>
+                    </td>
                     <td>{{ $source->created_at }}</td>
                     <td>{{ $source->updated_at }}</td>
                     <td>
                         <a href="{{ route('admin.dataSources.edit', ['dataSource' => $source]) }}">Редактировать</a><br>
-                        <a href="">Удалить</a>
+                        <a href="javascript:" class="delete" rel="{{ $source->id }}">Удалить</a>
                     </td>
                 </tr>
             @empty
@@ -48,3 +50,7 @@
         {{ $sources->links() }}
     </div>
 @endsection
+
+@push('js')
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endpush
