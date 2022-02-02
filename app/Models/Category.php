@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 class Category extends Model
@@ -12,19 +11,12 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'categories';
-    protected $availableFields = ['id', 'title', 'description'];
 
-    public function getCategories():array
-    {
-        return DB::table($this->table)
-            ->select($this->availableFields)
-            ->get()
-            ->toArray();
-    }
+    public static array $availableFields = ['id', 'title', 'description', 'image', 'created_at', 'updated_at'];
 
-    public function getCategory(int $id): Builder
-    {
-        return DB::table($this->table)
-            ->find($id, $this->availableFields);
-    }
+    protected $fillable = [
+        'title',
+        'description',
+        'image'
+    ];
 }

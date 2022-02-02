@@ -1,5 +1,5 @@
 <h2 class="form-title">Форма обратной связи</h2>
-<form action="{{ route('form.feedback.add') }}" method="post" class="form form-feedback">
+<form action="{{ route('form.feedbacks.add') }}" method="post" class="form form-feedback">
     @csrf
     <div class="form-group">
         <label for="name">Имя</label>

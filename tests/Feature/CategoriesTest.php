@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -22,7 +23,9 @@ class CategoriesTest extends TestCase
 
     public function testShow()
     {
-        $response = $this->get(route('categories.show', ['id' => mt_rand(1,5)]));
+        $category = Category::factory()->create();
+
+        $response = $this->get(route('categories.show', ['category' => $category]));
 
         $response->assertStatus(200);
     }

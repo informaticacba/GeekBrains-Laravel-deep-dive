@@ -1,1 +1,0 @@
-{"name":"Bob","phone":"89999999999","email":"qwerty@mail.ru","info":"sdfghjkl"}[][][][][][]

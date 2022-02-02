@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
+use App\Models\News;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -9,6 +11,8 @@ use Tests\TestCase;
 
 class NewsAdminTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -27,18 +31,15 @@ class NewsAdminTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testStoreJson() {
-        $faker = Factory::create();
-        $data = [
-            'title' => 'Hello',
-            'author' => $faker->userName(),
-            'status' => 'DRAFT',
-            'description' => $faker->text(100)
-        ];
+    public function testStore() {
+        $category = Category::factory()->create();
 
-        $response = $this->post(route('admin.news.store'),$data);
+        $news = News::factory()->definition();
 
-        $response->assertStatus(201);
-        $response->assertJson($data);
+        $categories = ['categories' => $category->id];
+
+        $response = $this->post(route('admin.news.store'), $news + $categories);
+
+        $response->assertStatus(302);
     }
 }

@@ -3,29 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Application;
 
 class NewsController extends Controller
 {
-    public function index(Request $request)
+    public function index(): Application|Factory|View
     {
-        $news = new News();
-        $category_id = $request->get('category') ?? null;
-        $news = $category_id ? $news->getNewsCategory($category_id) : $news->getNews();
+        $news = News::with('categories')
+            ->whereHas('categories', function (Builder $query) {
+                $category_id = request()->get('categories') ?? null;
+                if ($category_id)
+                    $query->where('id', '=', $category_id);
+            })
+            ->select(News::$availableFields)
+            ->get();
 
         return view('news.index', [
             'newsList' => $news
         ]);
     }
 
-    public function show(int $id)
+    public function show(News $news): Application|Factory|View
     {
-        $news = new News();
-        $news = $news->getNewsById($id);
+        $categories =
+            $news->categories
+                ->map(fn($category) => $category->title)
+                ->join(', ');
 
         return view('news.show', [
-            'news' => $news
+            'news' => $news,
+            'categories' => $categories
         ]);
     }
 }
