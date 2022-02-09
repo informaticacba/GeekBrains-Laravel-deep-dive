@@ -1,13 +1,18 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{NewsController, CategoryController};
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\Admin\OrderToReceiveDataUploadController as AdminOrderToReceiveDataUploadController;
 use App\Http\Controllers\Admin\DataSourceController as AdminDataSourceController;
+//use App\Http\Controllers\Account\IndexController as AccountController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,16 +31,37 @@ Route::view('/', 'welcome')
 Route::view('/info', 'info')
     ->name('info');
 
-//admin
-Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
-    Route::view('/', 'admin.index')
-        ->name('index');
-    Route::resource('/categories', AdminCategoryController::class);
-    Route::resource('/news', AdminNewsController::class);
-    Route::resource('/feedbacks', AdminFeedbackController::class);
-    Route::resource('/ordersToReceiveDataUpload', AdminOrderToReceiveDataUploadController::class)
-        ->parameter('ordersToReceiveDataUpload', 'order');
-    Route::resource('/dataSources', AdminDataSourceController::class);
+Route::group(['middleware' => 'auth'], function () {
+    //admin
+    Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'admin'], function() {
+        Route::view('/', 'admin.index')
+            ->name('index');
+        Route::resource('/users', AdminUserController::class);
+        Route::resource('/categories', AdminCategoryController::class);
+        Route::resource('/news', AdminNewsController::class);
+        Route::resource('/feedbacks', AdminFeedbackController::class);
+        Route::resource('/ordersToReceiveDataUpload', AdminOrderToReceiveDataUploadController::class)
+            ->parameter('ordersToReceiveDataUpload', 'order');
+        Route::resource('/dataSources', AdminDataSourceController::class);
+    });
+
+    //account
+//    Route::get('/account', AccountController::class)
+//        ->name('account');
+    Route::group(['as' => 'account.', 'prefix' => 'account'], function() {
+        Route::get('/', [AccountController::class, 'index'])
+            ->name('index');
+        Route::get('/edit', [AccountController::class, 'edit'])
+            ->name('edit');
+        Route::post('/update', [AccountController::class, 'update'])
+            ->name('update');
+    });
+
+    //logout
+    Route::get('logout', function () {
+        Auth::logout();
+        return redirect()->route('login');
+    })->name('logout');
 });
 
 //news
@@ -61,6 +87,13 @@ Route::post('/form/feedbacks/add', [AdminFeedbackController::class, 'store'])
 Route::post('/form/ordersToReceiveDataUpload/add', [AdminOrderToReceiveDataUploadController::class, 'store'])
     ->name('form.ordersToReceiveDataUpload.add');
 
+//auth
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])
+    ->name('home');
+
+//other
 Route::get('/sql', function () {
     dump(
 //            DB::table('news')
@@ -101,4 +134,16 @@ Route::get('/collection', function () {
     $collection2 = collect($arr2);
 
     dd($collection->get());
+});
+
+Route::get('/session', function () {
+    if (session()->has('test')) {
+        dd(
+            session()->all(),
+            session()->get('test'),
+        );
+//        session()->forget(['test']);
+    }
+
+    session(['test' => rand(1,1000)]);
 });

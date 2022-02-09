@@ -124,20 +124,23 @@ class NewsController extends Controller
                 'slug' => Str::slug($request->input('title'))
             ];
 
-        $updated = $news->fill($data)->save();
+        $updated = $news->fill($data)
+            ->save();
 
         if ($updated) {
-            DB::table('categories_has_news')
-                ->where('news_id', '=', $news->id)
-                ->delete();
-
-            foreach ($request->input('categories') as $category) {
-                DB::table('categories_has_news')
-                    ->insert([
-                        'category_id' => intval($category),
-                        'news_id' => $news->id
-                    ]);
-            }
+            $news->categories()
+                ->sync($request->input('categories'));
+//            DB::table('categories_has_news')
+//                ->where('news_id', '=', $news->id)
+//                ->delete();
+//
+//            foreach ($request->input('categories') as $category) {
+//                DB::table('categories_has_news')
+//                    ->insert([
+//                        'category_id' => intval($category),
+//                        'news_id' => $news->id
+//                    ]);
+//            }
 
             return redirect()->route('admin.news.index')
                 ->with('success', __('messages.admin.news.updated.success'));

@@ -29,8 +29,8 @@ class OrdersToReceiveDataUploadSeeder extends Seeder
                 'phone' => $faker->phoneNumber(),
                 'email' => $faker->email(),
                 'info' => $faker->text(1000),
-                'created_at' => date('Y-m-d H:m:s'),
-                'updated_at' => date('Y-m-d H:m:s')
+                'created_at' => now('Europe/Moscow'),
+                'updated_at' => now('Europe/Moscow')
             ];
         }
 

@@ -16,4 +16,9 @@ class DataSource extends Model
         'title',
         'link'
     ];
+
+    public function news()
+    {
+        return $this->hasMany(News::class, 'source_id');
+    }
 }

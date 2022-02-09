@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\News;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function index(): Application|Factory|View
+    public function index(Request $request): Application|Factory|View
     {
-        $news = News::with('categories')
-            ->whereHas('categories', function (Builder $query) {
-                $category_id = request()->get('categories') ?? null;
-                if ($category_id)
-                    $query->where('id', '=', $category_id);
-            })
+        $category_id = $request->get('category');
+
+        $news =
+            ($category_id)
+                ? Category::query()->find($category_id)->news()->with('categories')
+                : News::query();
+
+        $news = $news
+//            ->where('status', '=', 'ACTIVE')
             ->select(News::$availableFields)
             ->get();
 

@@ -17,16 +17,16 @@
                     <div class="col">
                         <div class="card shadow-sm">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/>
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ $news->title }}</text>
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ $news['title'] }}</text>
                             </svg>
                             <div class="card-body">
                                 <p>
-                                    <a href="{{ route('news.show', ['news' => $news->id]) }}">
-                                        <b>{{ $news->title }}</b>
+                                    <a href="{{ route('news.show', ['news' => $news['id']]) }}">
+                                        <b>{{ $news['title'] }}</b>
                                     </a>
                                 </p>
-                                <p><b>Автор:</b> {{ $news->author }}</p>
-                                <p><b>Категории:</b> {{ $news->categories->map(fn($category) => $category->title)->join(', ') }}</p>
+                                <p><b>Автор:</b> {{ $news['author'] }}</p>
+                                <p><b>Категории:</b> {{ $news['categories']->map(fn($category) => $category->title)->join(', ') }}</p>
                                 <p class="card-text">{{ $news->short_description }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
